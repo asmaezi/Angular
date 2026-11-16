@@ -2,15 +2,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'color',
+  standalone: true
 })
 export class ColorPipe implements PipeTransform {
-  transform(title:string): string {
-    if (title.length>10){
+  transform(title: string): string {
+    if (title.length > 10) {
       return 'red';
-    }
-    else 
-    {
+    } else {
       return 'green';
-    }     
+    }
   }
 }

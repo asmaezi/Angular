@@ -1,11 +1,18 @@
-@if (tasks.length === 0) {
-  <p class="empty">Aucune tâche pour l'instant</p>
-} @else {
+<p>{{ title }}</p>
+<button (click)="rename()">Rename</button>
+<button [disabled]="!canDelete" (click)="delete()">Delete</button>
+<br><br>
+<button (click)="addTask()">Add Task</button>
+<button (click)="deleteAllTask()">Delete All Tasks</button>
+
+@if (list.length > 0) {
   <ul>
-    @for (task of tasks; track task.id) {
-      <li>
-        {{ task.title | uppercase }}
+    @for (item of list; track item.id) {
+      <li [style.color]="item.title | color">
+        {{ item.id }} | {{ item.title | uppercase }} | {{ item.date | date }}
       </li>
     }
   </ul>
+} @else {
+  <p class="empty">empty task for now</p>
 }
