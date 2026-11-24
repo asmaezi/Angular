@@ -1,6 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { ColorPipe } from '../pipe/color-pipe';
+
+export interface TaskItem {
+  id: number;
+  title: string;
+  date?: Date;
+}
 
 @Component({
   selector: 'app-task',
@@ -15,6 +21,10 @@ export class Task {
   canDelete = false;
   list: { id: number; title: string; date: Date }[] = [];
 
+  
+  tasks = signal<TaskItem[]>([]);
+  count = computed(() => this.tasks().length);
+
   rename() {
     this.title = 'Renamed Task';
     this.canDelete = true;
@@ -25,19 +35,36 @@ export class Task {
     this.canDelete = false;
   }
 
+  add(task: TaskItem) {
+    this.tasks.update((items) => [...items, task]);
+  }
+
+  clear() {
+    this.tasks.set([]);
+  }
+
   addTask() {
-    // Alternance entre un titre court et un titre long (> 10 lettres) pour tester les couleurs
-    const sampleTitle = this.list.length % 2 === 0 ? "Court" : "Tache super longue";
-    this.list.push({ 
-      id: this.i++, 
-      title: sampleTitle, 
-      date: new Date() 
+    const sampleTitle = this.list.length % 2 === 0 ? 'Court' : 'Tache super longue';
+    const newItem: TaskItem = {
+      id: this.i++,
+      title: sampleTitle,
+      date: new Date(),
+    };
+
+    this.list.push({
+      id: newItem.id,
+      title: newItem.title,
+      date: newItem.date ?? new Date(),
     });
+
+  
+    this.add(newItem);
     this.title = '';
   }
 
   deleteAllTask() {
     this.list = [];
     this.i = 0;
+    this.clear();
   }
 }

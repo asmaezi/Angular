@@ -4,7 +4,7 @@
 <br><br>
 <button (click)="addTask()">Add Task</button>
 <button (click)="deleteAllTask()">Delete All Tasks</button>
-
+<p>{{ count() }} tâche(s)</p>
 @if (list.length > 0) {
   <ul>
     @for (item of list; track item.id) {

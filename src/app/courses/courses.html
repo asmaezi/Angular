@@ -1,0 +1,24 @@
+<h2>Articles disponibles ({{ availableArticles().length }})</h2>
+
+<div>
+  <input
+    #articleInput
+    type="text"
+    placeholder="Nom du nouvel article..."
+    (keydown.enter)="addArticle($event)"
+  />
+  <button type="button" (click)="addArticleFromInput(articleInput)">
+    Ajouter
+  </button>
+  <button type="button" (click)="resetArticles()">Vider (set)</button>
+</div>
+
+@if (availableArticles().length === 0) {
+  <p>Aucun article disponible.</p>
+} @else {
+  <ul>
+    @for (article of availableArticles(); track article.id) {
+      <li>{{ article.name }}</li>
+    }
+  </ul>
+}
